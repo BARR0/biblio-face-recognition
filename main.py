@@ -23,16 +23,15 @@ def delete_old_unknown():
 
 facedir = 'face/'
 celebritydir = 'celebrities/'
-known_face_names, known_face_encodings, known_face_images = load_face.load_faces(facedir)
+known_face_names, known_face_encodings, known_face_images, unknown_next = load_face.load_faces(facedir)
 eyeglass_map = eyeglass.glasses_map(known_face_names, known_face_images)
 
-celebrity_face_names, celebrity_face_encodings, celebrity_face_images = load_face.load_faces(celebritydir)
+celebrity_face_names, celebrity_face_encodings, celebrity_face_images, _ = load_face.load_faces(celebritydir)
 
 # video_capture = cv.VideoCapture('http://192.168.1.68:8080/video')
 video_capture = cv.VideoCapture(0)
 process_this_frame = 0
 resize_factor = 1
-unknown_next = 0
 unknown_faces_ids = []
 unknown_faces_encodings = []
 unknown_faces_ages = []
@@ -100,7 +99,7 @@ while True:
                         del unknown_faces_areas[u_best_match_index]
                         del unknown_faces_pixels[u_best_match_index]
                         del unknown_faces_lastmatch[u_best_match_index]
-                        known_face_names, known_face_encodings, known_face_images = load_face.load_faces(facedir)
+                        known_face_names, known_face_encodings, known_face_images, _ = load_face.load_faces(facedir)
                         eyeglass_map = eyeglass.glasses_map(known_face_names, known_face_images)
                     else:
                         face_is_far = True

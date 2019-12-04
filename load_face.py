@@ -17,4 +17,10 @@ def load_faces(dir = 'face/'):
     ], [
         cv.imread(f)
         for f in fnames
-    ]
+    ], max([
+        int(s.group(1)) + 1 if s is not None else 0
+        for s in [
+            re.search(r'Person ([0-9]*)\.jpg', f)
+            for f in fnames
+        ]
+    ])
