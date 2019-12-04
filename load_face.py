@@ -23,4 +23,4 @@ def load_faces(dir = 'face/'):
             re.search(r'Person ([0-9]*)\.jpg', f)
             for f in fnames
         ]
-    ])
+    ] + [0])
