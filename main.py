@@ -94,7 +94,7 @@ while True:
                         left *= resize_factor
 
                         unknown_faces_pixels[u_best_match_index] = frame[top:bottom, left:right].copy()
-                    if unknown_faces_areas[u_best_match_index] > 25000 and (datetime.now() - unknown_faces_ages[u_best_match_index]).seconds > 7:
+                    if unknown_faces_areas[u_best_match_index] > 15000 and (datetime.now() - unknown_faces_ages[u_best_match_index]).seconds > 7:
                         cv.imwrite(facedir + 'Person ' + str(unknown_faces_ids[u_best_match_index]) + '.jpg', unknown_faces_pixels[u_best_match_index])
                         del unknown_faces_ids[u_best_match_index]
                         del unknown_faces_encodings[u_best_match_index]
@@ -166,19 +166,19 @@ while True:
             filters.put_moustache(frame, left, top, right - left, bottom - top)
 
         # Draw a label with a name below the face
-        cv.rectangle(frame, (left, bottom - 20), (right, bottom), (0, 0, 255), cv.FILLED)
+        cv.rectangle(frame, (left, bottom - 20), (max(right, left + 150), bottom), (0, 0, 255), cv.FILLED)
         font = cv.FONT_HERSHEY_DUPLEX
         cv.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
 
-        cv.rectangle(frame, (left, bottom), (right, bottom + 20), (120, 0, 120), cv.FILLED)
+        cv.rectangle(frame, (left, bottom), (max(right, left + 150), bottom + 20), (120, 0, 120), cv.FILLED)
         font = cv.FONT_HERSHEY_DUPLEX
         cv.putText(frame, 'Lookalike: ', (left + 6, bottom + 20 - 6), font, 0.5, (255, 255, 255), 1)
-        cv.rectangle(frame, (left, bottom + 20), (right, bottom + 40), (120, 0, 120), cv.FILLED)
+        cv.rectangle(frame, (left, bottom + 20), (max(right, left + 150), bottom + 40), (120, 0, 120), cv.FILLED)
         font = cv.FONT_HERSHEY_DUPLEX
         cv.putText(frame,lookalike_name, (left + 6, bottom + 40 - 6), font, 0.5, (255, 255, 255), 1)
 
         if glass_change:
-            cv.rectangle(frame, (left, bottom + 40), (right, bottom + 60), (255, 0, 0), cv.FILLED)
+            cv.rectangle(frame, (left, bottom + 40), (max(right, left + 150), bottom + 60), (255, 0, 0), cv.FILLED)
             font = cv.FONT_HERSHEY_DUPLEX
             cv.putText(frame, 'What\'s with the glasses?', (left + 6, bottom + 60 - 6), font, 0.5, (255, 255, 255), 1)
 
