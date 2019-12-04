@@ -28,7 +28,10 @@ eyeglass_map = eyeglass.glasses_map(known_face_names, known_face_images)
 
 celebrity_face_names, celebrity_face_encodings, celebrity_face_images, _ = load_face.load_faces(celebritydir)
 
-# video_capture = cv.VideoCapture('http://192.168.1.68:8080/video')
+cv.namedWindow('Video', cv.WINDOW_NORMAL)
+cv.setWindowProperty('Video', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
+
+# video_capture = cv.VideoCapture('http://10.43.34.208:8080/video')
 video_capture = cv.VideoCapture(0)
 process_this_frame = 0
 resize_factor = 1
@@ -91,7 +94,7 @@ while True:
                         left *= resize_factor
 
                         unknown_faces_pixels[u_best_match_index] = frame[top:bottom, left:right].copy()
-                    if unknown_faces_areas[u_best_match_index] > 70000 and (datetime.now() - unknown_faces_ages[u_best_match_index]).seconds > 7:
+                    if unknown_faces_areas[u_best_match_index] > 25000 and (datetime.now() - unknown_faces_ages[u_best_match_index]).seconds > 7:
                         cv.imwrite(facedir + 'Person ' + str(unknown_faces_ids[u_best_match_index]) + '.jpg', unknown_faces_pixels[u_best_match_index])
                         del unknown_faces_ids[u_best_match_index]
                         del unknown_faces_encodings[u_best_match_index]
@@ -169,18 +172,21 @@ while True:
 
         cv.rectangle(frame, (left, bottom), (right, bottom + 20), (120, 0, 120), cv.FILLED)
         font = cv.FONT_HERSHEY_DUPLEX
-        cv.putText(frame, 'Lookalike: ' + lookalike_name, (left + 6, bottom + 20 - 6), font, 0.5, (255, 255, 255), 1)
+        cv.putText(frame, 'Lookalike: ', (left + 6, bottom + 20 - 6), font, 0.5, (255, 255, 255), 1)
+        cv.rectangle(frame, (left, bottom + 20), (right, bottom + 40), (120, 0, 120), cv.FILLED)
+        font = cv.FONT_HERSHEY_DUPLEX
+        cv.putText(frame,lookalike_name, (left + 6, bottom + 40 - 6), font, 0.5, (255, 255, 255), 1)
 
         if glass_change:
-            cv.rectangle(frame, (left, bottom + 20), (right, bottom + 40), (255, 0, 0), cv.FILLED)
+            cv.rectangle(frame, (left, bottom + 40), (right, bottom + 60), (255, 0, 0), cv.FILLED)
             font = cv.FONT_HERSHEY_DUPLEX
-            cv.putText(frame, 'What\'s with the glasses?', (left + 6, bottom + 40 - 6), font, 0.5, (255, 255, 255), 1)
+            cv.putText(frame, 'What\'s with the glasses?', (left + 6, bottom + 60 - 6), font, 0.5, (255, 255, 255), 1)
 
     height = np.size(frame, 0)
     width = np.size(frame, 1)
     cv.rectangle(frame, (0, 0), (width, 30), (255, 255, 255), cv.FILLED)
     font = cv.FONT_HERSHEY_DUPLEX
-    cv.putText(frame, 'Privacy policy can be accessed at: http://jeje.com', (6, 30 - 6), font, 0.75, (0, 0, 0), 1)
+    cv.putText(frame, 'Privacidad: https://cutt.ly/privacidad-tec', (6, 30 - 6), font, 0.75, (0, 0, 0), 1)
 
     if face_is_far:
         cv.rectangle(frame, (0, 30), (width, 60), (255, 255, 255), cv.FILLED)
